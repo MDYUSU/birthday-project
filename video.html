@@ -144,6 +144,42 @@
             box-shadow: 0 8px 25px rgba(106, 76, 147, 0.6);
         }
 
+        /* Surprise Button */
+        .surprise-btn {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 2px solid white;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 100;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            text-decoration: none;
+            font-size: 1.1rem;
+        }
+
+        .surprise-btn:hover {
+            background: white;
+            color: #ff69b4;
+            transform: translateX(-50%) scale(1.05);
+        }
+
+        .surprise-btn.fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         /* Final Letter Section */
         .final-letter-section {
             position: absolute;
@@ -307,6 +343,10 @@
                 <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.webm" type="video/webm">
                 Your browser does not support the video tag.
             </video>
+            
+            <button id="next-surprise-btn" class="surprise-btn">
+                Ready for the next surprise? ✨
+            </button>
         </div>
     </div>
 
@@ -340,7 +380,11 @@
             const playOverlay = document.getElementById('playOverlay');
             const playButton = document.getElementById('playButton');
             const finalLetterSection = document.getElementById('finalLetterSection');
+            const nextSurpriseBtn = document.getElementById('next-surprise-btn');
             let hasPlayed = false;
+
+            // Hide button initially
+            nextSurpriseBtn.style.display = 'none';
 
             // Play video when overlay is clicked
             playOverlay.addEventListener('click', function() {
@@ -351,8 +395,12 @@
                 }
             });
 
-            // When video ends, show the letter
+            // When video ends, show the letter and surprise button
             video.addEventListener('ended', function() {
+                // Show the next surprise button
+                nextSurpriseBtn.style.display = 'block';
+                nextSurpriseBtn.classList.add('fade-in');
+                
                 // Smooth scroll to letter section
                 finalLetterSection.classList.add('visible');
                 
