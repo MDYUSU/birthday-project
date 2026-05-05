@@ -1,0 +1,65 @@
+/* Dynamic Photo Background System */
+.photo-background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Lowest layer - behind everything */
+    pointer-events: none; /* Don't interfere with interactions */
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8e1f4, #e0c3f7, #c2e6ff); /* Fallback background */
+}
+
+.photo-background-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain; /* Changed from cover to contain */
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 1s ease-in-out;
+    will-change: opacity;
+}
+
+.photo-background-slide.active {
+    opacity: 0.3; /* Increased visibility from 0.15 to 0.3 */
+}
+
+/* Ensure content stays above background */
+.container, .letter-container, .cake-container, 
+.memory-container, .quiz-overlay, .modal-overlay,
+.surprise-button-container, .navigation {
+    position: relative;
+    z-index: 10;
+}
+
+/* Memory lane specific fixes */
+.memory-lane-container, .gallery-container, .gallery,
+.memory-card, .memory-img, .memory-caption,
+.floating-element, .balloon, .confetti {
+    position: relative;
+    z-index: 1;
+}
+
+/* Ensure body and base elements are lowest */
+body, .base-background {
+    position: relative;
+    z-index: -3;
+}
+
+/* Add subtle backdrop blur to ensure text readability */
+.letter-container, .cake-container, .memory-container {
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .photo-background-slide.active {
+        opacity: 0.1; /* Even more subtle on mobile */
+    }
+}

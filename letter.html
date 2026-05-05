@@ -150,6 +150,58 @@
             transform: translateY(1px);
         }
 
+        /* Quiz Overlay Styles */
+        .quiz-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 1;
+            transform: scale(1);
+            transition: all 0.5s ease;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 650px;
+            width: 90%;
+            box-shadow: 
+                0 25px 50px rgba(106, 76, 147, 0.25),
+                0 0 0 1px rgba(255, 255, 255, 0.1),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .quiz-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(255, 182, 193, 0.1) 0%,
+                rgba(186, 85, 211, 0.1) 50%,
+                rgba(255, 105, 180, 0.1) 100%);
+            border-radius: 30px;
+            pointer-events: none;
+        }
+
         /* Surprise Modal */
         .modal-overlay {
             position: fixed;
@@ -366,6 +418,45 @@
             }
         }
 
+        @keyframes sparkBurst {
+            0% {
+                transform: scale(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(3) rotate(180deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .letter-revealed {
+            animation: letterReveal 1s ease-out forwards;
+        }
+
+        @keyframes letterReveal {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+                filter: blur(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
         /* Cursor Effect */
         .cursor-effect {
             position: absolute;
@@ -407,14 +498,33 @@
                 max-width: 40px;
                 max-height: 40px;
             }
+
+            .quiz-container {
+                padding: 25px;
+                margin: 20px;
+            }
+
+            .quiz-header h2 {
+                font-size: 1.8rem;
+            }
+
+            .question-text {
+                font-size: 1.2rem;
+            }
+
+            .option-btn {
+                padding: 15px 20px;
+                font-size: 1rem;
+            }
         }
     </style>
+    <link rel="stylesheet" href="photo-background.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>For My Dearest Friend ❤️</h1>
+            <h1>For My Dearest Best Friend 💞</h1>
         </header>
 
         <div class="letter-container">
@@ -427,9 +537,9 @@
         </div>
 
         <div class="surprise-button-container">
-            <button class="surprise-button" id="surprise-button">
+            <!-- <button class="surprise-button" id="surprise-button">
                 Click for a Surprise! 🎁
-            </button>
+            </button> -->
         </div>
 
         <div class="navigation">
@@ -450,7 +560,7 @@
                 <div class="playlist">
                     <h3 style="margin-bottom: 15px;">Songs That Remind Me of Us 💕</h3>
                     <div class="playlist-item">
-                        <img src="3.jpg" alt="Song cover">
+                        <img src="3.png" alt="Song cover">
                         <div class="playlist-item-info">
                             <div class="playlist-item-title">Our Favorite Memory</div>
                             <div class="playlist-item-artist">That Artist You Love</div>
@@ -458,7 +568,7 @@
                         <button class="playlist-item-play"><i class="fas fa-play"></i></button>
                     </div>
                     <div class="playlist-item">
-                        <img src="1.jpg" alt="Song cover">
+                        <img src="1.png" alt="Song cover">
                         <div class="playlist-item-info">
                             <div class="playlist-item-title">That Summer Night</div>
                             <div class="playlist-item-artist">The Adventure Band</div>
@@ -466,7 +576,7 @@
                         <button class="playlist-item-play"><i class="fas fa-play"></i></button>
                     </div>
                     <div class="playlist-item">
-                        <img src="6.jpg" alt="Song cover">
+                        <img src="6.png" alt="Song cover">
                         <div class="playlist-item-info">
                             <div class="playlist-item-title">Inside Joke Anthem</div>
                             <div class="playlist-item-artist">Laugh Out Loud</div>
@@ -474,7 +584,7 @@
                         <button class="playlist-item-play"><i class="fas fa-play"></i></button>
                     </div>
                     <div class="playlist-item">
-                        <img src="2.jpeg" alt="Song cover">
+                        <img src="2.png" alt="Song cover">
                         <div class="playlist-item-info">
                             <div class="playlist-item-title">Remember When</div>
                             <div class="playlist-item-artist">The Friendship Vibes</div>
@@ -482,7 +592,7 @@
                         <button class="playlist-item-play"><i class="fas fa-play"></i></button>
                     </div>
                     <div class="playlist-item">
-                        <img src="5.jpg" alt="Song cover">
+                        <img src="5.png" alt="Song cover">
                         <div class="playlist-item-info">
                             <div class="playlist-item-title">Birthday Wishes</div>
                             <div class="playlist-item-artist">Happy Songs</div>
@@ -512,6 +622,9 @@
         <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=relaxing-145038.mp3" type="audio/mpeg">
     </audio>
 
+    <script src="sparkle-cursor.js"></script>
+    <script src="bestie-trivia.js"></script>
+    <script src="photo-background.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.5.1/confetti.browser.min.js"></script>
 

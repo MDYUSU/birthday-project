@@ -502,10 +502,13 @@
         }
       }
     </style>
+    <link rel="stylesheet" href="photo-background.css">
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
+    <script src="sparkle-cursor.js"></script>
+    <script src="photo-background.js"></script>
     <script
       bis_use="true"
       type="text/javascript"
@@ -676,12 +679,25 @@
       const totalCandles = 5;
       let allCandlesBlown = false;
 
+      // Blow detection variables
+      let audioContext = null;
+      let microphone = null;
+      let analyser = null;
+      let dataArray = null;
+      let isListening = false;
+      let blowThreshold = 0.3; // Adjust sensitivity (0.1 - 1.0)
+      let consecutiveLoudReadings = 0;
+      let requiredConsecutiveReadings = 3;
+
       // Initialize the page when it loads
       document.addEventListener("DOMContentLoaded", function () {
         createCandles();
         createBalloons();
         createConfetti();
         createDecorations();
+
+        // Initialize blow detection
+        initializeBlowDetection();
 
         // Add event listeners for candle interaction
         document.querySelectorAll(".candle").forEach((candle) => {
@@ -885,19 +901,142 @@
         }
       }
 
-      // Navigation functions
-      function goBack() {
-        // Replace with actual back URL
-
-        window.location.href = "memorylane.html";
+      // Initialize blow detection using Web Audio API
+      async function initializeBlowDetection() {
+        try {
+          // Request microphone access
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          
+          // Create audio context
+          audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          microphone = audioContext.createMediaStreamSource(stream);
+          analyser = audioContext.createAnalyser();
+          
+          // Configure analyser
+          analyser.fftSize = 256;
+          const bufferLength = analyser.frequencyBinCount;
+          dataArray = new Uint8Array(bufferLength);
+          
+          // Connect microphone to analyser
+          microphone.connect(analyser);
+          
+          // Start listening for blows
+          isListening = true;
+          detectBlow();
+          
+          console.log("Blow detection initialized successfully!");
+          
+        } catch (error) {
+          console.log("Microphone access denied or not available:", error);
+          // Fallback: show a message that blow detection is not available
+          showBlowDetectionUnavailable();
+        }
       }
 
-      function goNext() {
-        // Replace with actual next URL
+// Detect blow from microphone input
+function detectBlow() {
+  if (!isListening) return;
 
-        window.location.href = "letter.html";
-      }
-    </script>
+  analyser.getByteFrequencyData(dataArray);
 
-    </body>
+  // Calculate average volume
+  let sum = 0;
+  for (let i = 0; i < dataArray.length; i++) {
+    sum += dataArray[i];
+  }
+  const average = sum / dataArray.length;
+  const normalizedVolume = average / 255; // Normalize to 0-1
+
+  // Check if volume exceeds threshold
+  if (normalizedVolume > blowThreshold) {
+    consecutiveLoudReadings++;
+
+    // Trigger blow effect if we have enough consecutive loud readings
+    if (consecutiveLoudReadings >= requiredConsecutiveReadings) {
+      onBlowDetected();
+      consecutiveLoudReadings = 0; // Reset counter
+    }
+  } else {
+    consecutiveLoudReadings = 0; // Reset counter if volume drops
+  }
+
+  // Continue listening
+  requestAnimationFrame(detectBlow);
+}
+
+// Handle blow detection
+function onBlowDetected() {
+  console.log("Blow detected!");
+
+  // Blow out all remaining candles at once
+  const unblownCandles = document.querySelectorAll(".candle:not(.blown)");
+
+  if (unblownCandles.length > 0) {
+    // Blow out candles with a staggered effect
+    unblownCandles.forEach((candle, index) => {
+      setTimeout(() => {
+        blowOutCandle.call(candle);
+      }, index * 100); // 100ms delay between each candle
+    });
+
+    // Show "Make a wish!" message
+    setTimeout(() => {
+      if (candlesBlown === totalCandles && !allCandlesBlown) {
+        // Update wish message to indicate blow detection
+        const wishMessage = document.getElementById("wishMessage");
+        const messageText = wishMessage.querySelector("p");
+        messageText.textContent = "Great blow! Make a wish, Bestie! May all your dreams come true! 🎂✨"; 
+        }
+      }, unblownCandles.length * 100 + 500);
+  }
+}
+
+// Show message when blow detection is unavailable
+function showBlowDetectionUnavailable() {
+  const message = document.createElement("div");
+  message.style.cssText = `
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    font-size: 14px;
+    color: #333;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  `;
+  message.innerHTML = " Microphone access needed for blow detection. Click candles to blow them out!";
+  document.body.appendChild(message);
+
+  // Show message
+  setTimeout(() => {
+    message.style.opacity = "1";
+  }, 100);
+
+  // Hide message after 5 seconds
+  setTimeout(() => {
+    message.style.opacity = "0";
+    setTimeout(() => {
+      message.remove();
+    }, 500);
+  }, 5000);
+}
+
+// Navigation functions
+function goBack() {
+  // Replace with actual back URL
+  window.location.href = "memorylane.html";
+}
+
+function goNext() {
+  // Replace with actual next URL
+  window.location.href = "letter.html";
+}
+</script>
+
+</body>
 </html>

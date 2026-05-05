@@ -88,16 +88,19 @@
       }
 
       .gallery-container {
-        position: relative;
+        position: relative !important;
         margin: 2rem 0;
+        z-index: 50 !important;
       }
 
       .slideshow-controls {
-        display: flex;
+        display: flex !important;
         justify-content: center;
         margin-bottom: 2rem;
-        opacity: 0;
+        opacity: 1 !important;
         animation: fadeIn 1s forwards 1s;
+        z-index: 51 !important;
+        position: relative !important;
       }
 
       .btn {
@@ -127,15 +130,17 @@
       }
 
       .gallery {
-        display: flex;
+        display: flex !important;
         flex-wrap: nowrap;
-        overflow-x: auto;
+        overflow: visible !important;
         gap: 1.5rem;
         padding: 1.5rem 0;
         -webkit-overflow-scrolling: touch;
         scroll-behavior: smooth;
         scrollbar-width: thin;
         scrollbar-color: #ff6ec4 #ffcee6;
+        position: relative !important;
+        z-index: 49 !important;
       }
 
       .gallery::-webkit-scrollbar {
@@ -156,9 +161,9 @@
         flex: 0 0 auto;
         width: 300px;
         height: 400px;
-        position: relative;
+        position: relative !important;
         border-radius: 20px;
-        overflow: hidden;
+        overflow: visible !important;
         box-shadow: 0 10px 25px rgba(255, 105, 180, 0.3);
         transform: translateY(50px) rotate(var(--rotate, 0deg));
         opacity: 0;
@@ -183,22 +188,29 @@
       }
 
       .memory-caption {
-        position: absolute;
-        bottom: -100%;
-        left: 0;
-        width: 100%;
-        background: rgba(255, 105, 180, 0.85);
-        color: white;
-        padding: 1.2rem;
-        transition: bottom 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-        border-bottom-left-radius: 15px;
-        border-bottom-right-radius: 15px;
-        font-size: 1.1rem;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+        position: absolute !important;
+        bottom: 10% !important;
+        left: 50% !important;
+        transform: translateX(-50%) translateY(20px) !important;
+        width: 80% !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        transition: all 0.3s ease-in-out !important;
+        z-index: 9999 !important;
+        background: rgba(255, 105, 180, 0.95) !important;
+        padding: 10px !important;
+        border-radius: 8px !important;
+        text-align: center !important;
+        pointer-events: none !important;
+        color: white !important;
+        font-size: 1.1rem !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
       }
 
       .memory-card:hover .memory-caption {
-        bottom: 0;
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(-50%) translateY(0) !important;
       }
 
       .memory-card::before {
@@ -494,7 +506,394 @@
           max-width: 200px;
         }
       }
+
+      /* Mobile Responsive Design */
+      @media (max-width: 768px) {
+        .video-container {
+          width: 95%;
+          max-width: none;
+          aspect-ratio: 16/9;
+        }
+
+        .video-play-button, .video-pause-button {
+          width: 60px;
+          height: 60px;
+        }
+
+        .video-play-icon, .pause-icon {
+          font-size: 18px;
+        }
+
+        .video-play-text {
+          font-size: 14px;
+          bottom: -40px;
+        }
+
+        .btn {
+          padding: 12px 20px;
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .video-container {
+          width: 90%;
+          border-radius: 15px;
+        }
+
+        .video-play-button, .video-pause-button {
+          width: 50px;
+          height: 50px;
+        }
+
+        .video-play-icon, .pause-icon {
+          font-size: 16px;
+        }
+
+        .video-play-text {
+          font-size: 12px;
+        }
+
+        .btn {
+          padding: 10px 15px;
+          font-size: 12px;
+        }
+      }
+
+      /* Watch Our Story Button Styles */
+      .watch-story-container {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        text-align: center;
+      }
+
+      .watch-story-btn {
+        background: linear-gradient(45deg, #ff69b4, #6a4c93);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .watch-story-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+        background: linear-gradient(45deg, #ff4e91, #5a3a73);
+      }
+
+      .watch-story-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 10px rgba(255, 105, 180, 0.3);
+      }
+
+      .watch-story-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: left 0.5s;
+      }
+
+      .watch-story-btn:hover::before {
+        left: 100%;
+      }
+
+      @media (max-width: 768px) {
+        .watch-story-container {
+          bottom: 20px;
+        }
+        
+        .watch-story-btn {
+          padding: 12px 24px;
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .watch-story-container {
+          bottom: 15px;
+        }
+        
+        .watch-story-btn {
+          padding: 10px 20px;
+          font-size: 12px;
+        }
+      }
+
+      /* Video Section Styles */
+      .video-section {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: radial-gradient(circle at center, rgba(0,0,0,0.8) 0%, rgba(10,10,30,0.9) 100%);
+        z-index: 100;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .video-section.active {
+        display: flex;
+      }
+
+      .video-section {
+        display: none;
+      }
+
+      /* Video Modal Styles */
+      .video-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.9);
+        z-index: 9999;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .video-modal.active {
+        display: flex;
+        opacity: 1;
+      }
+
+      /* Video Close Button */
+      .video-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.9);
+        border: none;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        z-index: 101;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #333;
+      }
+
+      .video-close-btn:hover {
+        background: rgba(255, 255, 255, 1);
+        transform: scale(1.1);
+      }
+
+      .video-container {
+        position: relative;
+        width: 90%;
+        max-width: 1200px;
+        aspect-ratio: 16/9;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 
+          0 0 50px rgba(255, 105, 180, 0.3),
+          0 0 100px rgba(255, 105, 180, 0.2),
+          0 0 150px rgba(255, 105, 180, 0.1),
+          inset 0 0 20px rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.9);
+        border: 2px solid rgba(255, 105, 180, 0.3);
+        animation: videoGlow 3s ease-in-out infinite alternate;
+      }
+
+      .main-video {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 18px;
+      }
+
+      .video-play-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(5px);
+        -webkit-backdrop-filter: blur(5px);
+        border-radius: 18px;
+        cursor: pointer;
+        transition: all 0.5s ease;
+        z-index: 2;
+      }
+
+      .video-play-overlay.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .video-play-button, .video-pause-button {
+        width: 80px;
+        height: 80px;
+        background: rgba(255, 105, 180, 0.9);
+        border: 3px solid rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        position: relative;
+      }
+
+      .video-pause-button {
+        background: rgba(255, 105, 180, 0.8);
+      }
+
+      .video-play-button:hover, .video-pause-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
+        background: rgba(255, 105, 180, 1);
+      }
+
+      .video-play-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(255, 105, 180, 0.7);
+        background: rgba(255, 105, 180, 1);
+      }
+
+      .video-play-icon {
+        font-size: 24px;
+        color: white;
+        margin-left: 3px;
+      }
+
+      .video-play-text {
+        position: absolute;
+        bottom: -50px;
+        color: white;
+        font-size: 18px;
+        font-weight: 600;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      /* Video Progress Bar */
+      .video-progress {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: 300px;
+        height: 6px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 3px;
+        overflow: hidden;
+        z-index: 1; /* Lower z-index to not block interactions */
+        pointer-events: none; /* Allow clicks through progress bar */
+      }
+
+      .progress-bar {
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 3px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .progress-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #ff69b4, #6a4c93);
+        border-radius: 3px;
+        transition: width 0.1s ease;
+      }
+
+      .time-display {
+        position: absolute;
+        bottom: 30px;
+        right: 20px;
+        color: white;
+        font-size: 14px;
+        font-weight: 600;
+        text-shadow: 0 1px 5px rgba(0, 0, 0, 0.8);
+        z-index: 4;
+      }
+
+      /* Nostalgia Text Styles */
+      .nostalgia-text {
+        position: absolute;
+        font-size: 24px;
+        font-weight: 300;
+        color: rgba(255, 255, 255, 0.6);
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        font-family: 'Georgia', serif;
+        z-index: 2;
+      }
+
+      .nostalgia-text.top {
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .nostalgia-text.bottom {
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      @keyframes videoGlow {
+        0% {
+          box-shadow: 
+            0 0 50px rgba(255, 105, 180, 0.3),
+            0 0 100px rgba(255, 105, 180, 0.2),
+            0 0 150px rgba(255, 105, 180, 0.1),
+            inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        100% {
+          box-shadow: 
+            0 0 60px rgba(255, 105, 180, 0.4),
+            0 0 120px rgba(255, 105, 180, 0.3),
+            0 0 180px rgba(255, 105, 180, 0.2),
+            inset 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+      }
+
+      @keyframes pulse {
+        0%, 100% {
+          opacity: 0.8;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
     </style>
+    <link rel="stylesheet" href="photo-background.css">
     <script
       bis_use="true"
       type="text/javascript"
@@ -2115,10 +2514,9 @@
         "
         bis_skin_checked="1"
       >
-        <h1>Our Memory Lane</h1>
+        <h1>Moments in the Spotlight</h1>
         <p>
-          A journey through the most incredible moments we've shared together.
-          Hover over each photo to see why these memories mean so much to me!
+          Capturing the light you bring into the world. These are my favorite views of you—hover over each one to see the little things that make these memories so unforgettable.
           ✨💖
         </p>
       </div>
@@ -2153,10 +2551,9 @@
               style="--rotate: -4deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="1.jpg" alt="Memory 1" />
+            <img class="memory-img" src="1.png" alt="Memory 1" />
             <div class="memory-caption" bis_skin_checked="1">
-              Remember when we got lost hiking and found that amazing waterfall?
-              Best wrong turn ever! 😂
+             If I had to pick just one photo to sum up your magic, it’s this one. 🏆" > "My absolute favorite view of you—forever and always.💞
             </div>
             <div class="card-sticker" bis_skin_checked="1">
               <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -2192,10 +2589,9 @@
               style="--rotate: 6deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="2.jpeg" alt="Memory 2" />
+            <img class="memory-img" src="2.png" alt="Memory 2" />
             <div class="memory-caption" bis_skin_checked="1">
-              That time we stayed up all night just talking and watching the
-              sunrise. I've never laughed so hard in my life!
+              You’re basically a Pinterest board come to life with this effortless, main-character aesthetic. 🤍
             </div>
             <div class="card-sticker" bis_skin_checked="1">
               <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -2231,10 +2627,9 @@
               style="--rotate: -2deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="3.jpg" alt="Memory 3" />
+            <img class="memory-img" src="3.png" alt="Memory 3" />
             <div class="memory-caption" bis_skin_checked="1">
-              Our first road trip together! You fell asleep and I drew a tiny
-              mustache on you with a marker. You didn't notice for HOURS!
+              Your beauty in this blue saree is honestly unmatched and easily my new favorite recent memory of you. 💙
             </div>
             <div class="card-sticker" bis_skin_checked="1">
               <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -2270,11 +2665,9 @@
               style="--rotate: 4deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="4.jpg" alt="Memory 4" />
+            <img class="memory-img" src="4.png" alt="Memory 4" />
             <div class="memory-caption" bis_skin_checked="1">
-              Remember our cooking disaster when we tried to make that fancy
-              recipe? The smoke alarm going off, but the pizza we ordered after
-              was the best ever!
+             Looking back at last year’s celebration only makes me<br>more excited to make today even more legendary. 🥂
             </div>
             <div class="card-sticker" bis_skin_checked="1">
               <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -2310,7 +2703,7 @@
               style="--rotate: -6deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="5.jpg" alt="Memory 5" />
+            <img class="memory-img" src="5.png" alt="Memory 5" />
             <div class="memory-caption" bis_skin_checked="1">
               Our camping trip under the stars. You were terrified of that tiny
               spider and jumped so high! Still my favorite memory.
@@ -2349,7 +2742,7 @@
               style="--rotate: 2deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="7.jpg" alt="Memory 6" />
+            <img class="memory-img" src="7.png" alt="Memory 6" />
             <div class="memory-caption" bis_skin_checked="1">
               That concert where we danced until our feet hurt. Worth every
               blister!
@@ -2388,7 +2781,7 @@
               style="--rotate: -4deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="8.jpg" alt="Memory 7" />
+            <img class="memory-img" src="8.png" alt="Memory 7" />
             <div class="memory-caption" bis_skin_checked="1">
               When we built that epic blanket fort during the storm and watched
               movies all day. Best rainy day ever!
@@ -2427,7 +2820,7 @@
               style="--rotate: 4deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="1.jpg" alt="Memory 8" />
+            <img class="memory-img" src="1.png" alt="Memory 8" />
             <div class="memory-caption" bis_skin_checked="1">
               Our spontaneous beach day when we skipped class. I still find sand
               in my backpack sometimes!
@@ -2466,7 +2859,7 @@
               style="--rotate: -2deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="2.jpeg" alt="Memory 9" />
+            <img class="memory-img" src="2.png" alt="Memory 9" />
             <div class="memory-caption" bis_skin_checked="1">
               You've always been there for me through thick and thin. I'm so
               grateful for your friendship. ❤️
@@ -2497,7 +2890,7 @@
               style="--rotate: 6deg"
               bis_skin_checked="1"
             ></div>
-            <img class="memory-img" src="3.jpg" alt="Memory 10" />
+            <img class="memory-img" src="3.png" alt="Memory 10" />
             <div class="memory-caption" bis_skin_checked="1">
               Happy Birthday to my best friend in the whole world! Here's to
               many more adventures together!
@@ -2521,6 +2914,24 @@
         </div>
       </div>
 
+      <!-- Video Modal -->
+      <div class="video-modal" id="videoModal">
+        <!-- Close Button -->
+        <button class="video-modal-close" id="videoModalClose">✕</button>
+        
+        Nostalgia Text Top
+        <div class="nostalgia-text top"></div>
+        
+        <div class="video-container">
+          <video class="main-video" id="mainVideo" controls preload="auto">
+            <source src="friendship_edit.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <!-- Nostalgia Text Bottom -->
+          <div class="nostalgia-text bottom">Nostalgia(2025)</div>
+        </div>
+      </div>
+
       <div
         class="navigation-buttons"
         style="
@@ -2536,11 +2947,20 @@
           <span>← Back to Welcome</span>
         </button>
         <button id="nextButton" class="btn">
-          <span>✨ Next Surprise! ✨</span>
+          <span>←Here is the cake for you</span>
+        </button>
+      </div>
+
+      <!-- Watch Our Story Button -->
+      <div class="watch-story-container">
+        <button id="watch-story-btn" class="watch-story-btn">
+          <span>🎬 Watch Our Story</span>
         </button>
       </div>
     </div>
 
+    <script src="sparkle-cursor.js"></script>
+    <script src="photo-background.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
 
@@ -2551,7 +2971,7 @@
       // Memory data - replace placeholder images with your actual images and add your captions
       const memories = [
         {
-          image: "1.jpg",
+          image: "1.png",
           caption:
             "Remember when we got lost hiking and found that amazing waterfall? Best wrong turn ever! 😂",
           isGif: false,
@@ -2559,7 +2979,7 @@
           emoji: "🌊",
         },
         {
-          image: "2.jpeg",
+          image: "2.png",
           caption:
             "That time we stayed up all night just talking and watching the sunrise. I've never laughed so hard in my life!",
           isGif: false,
@@ -2567,7 +2987,7 @@
           emoji: "🌅",
         },
         {
-          image: "3.jpg",
+          image: "3.png",
           caption:
             "Our first road trip together! You fell asleep and I drew a tiny mustache on you with a marker. You didn't notice for HOURS!",
           isGif: true,
@@ -2575,7 +2995,7 @@
           emoji: "🚗",
         },
         {
-          image: "4.jpg",
+          image: "4.png",
           caption:
             "Remember our cooking disaster when we tried to make that fancy recipe? The smoke alarm going off, but the pizza we ordered after was the best ever!",
           isGif: false,
@@ -2583,7 +3003,7 @@
           emoji: "🍕",
         },
         {
-          image: "5.jpg",
+          image: "5.png",
           caption:
             "Our camping trip under the stars. You were terrified of that tiny spider and jumped so high! Still my favorite memory.",
           isGif: false,
@@ -2591,7 +3011,7 @@
           emoji: "🏕️",
         },
         {
-          image: "7.jpg",
+          image: "7.png",
           caption:
             "That concert where we danced until our feet hurt. Worth every blister!",
           isGif: true,
@@ -2599,7 +3019,7 @@
           emoji: "🎵",
         },
         {
-          image: "8.jpg",
+          image: "8.png",
           caption:
             "When we built that epic blanket fort during the storm and watched movies all day. Best rainy day ever!",
           isGif: false,
@@ -2607,7 +3027,7 @@
           emoji: "🏰",
         },
         {
-          image: "1.jpg",
+          image: "1.png",
           caption:
             "Our spontaneous beach day when we skipped class. I still find sand in my backpack sometimes!",
           isGif: false,
@@ -2615,7 +3035,7 @@
           emoji: "🏖️",
         },
         {
-          image: "2.jpeg",
+          image: "2.png",
           caption:
             "You've always been there for me through thick and thin. I'm so grateful for your friendship. ❤️",
           isGif: false,
@@ -2623,7 +3043,7 @@
           emoji: "💕",
         },
         {
-          image: "3.jpg",
+          image: "3.png",
           caption:
             "Happy Birthday to my best friend in the whole world! Here's to many more adventures together!",
           isGif: true,
@@ -2669,6 +3089,7 @@
         const pauseSlideshowBtn = document.getElementById("pauseSlideshow");
         const backButton = document.getElementById("backButton");
         const nextButton = document.getElementById("nextButton");
+        const videoButton = document.getElementById("watch-story-btn");
 
         let slideshowInterval;
         let currentSlide = 0;
@@ -2797,6 +3218,200 @@
         nextButton.addEventListener("click", function () {
           window.location.href = "cake.html"; // Adjust this to your next surprise page URL
         });
+
+        // Video button functionality
+        videoButton.addEventListener("click", function () {
+          const videoModal = document.getElementById("videoModal");
+          const video = document.getElementById("mainVideo");
+          
+          // Show video modal with fade-in effect
+          videoModal.classList.add("active");
+          
+          // Try to play video
+          setTimeout(() => {
+            video.play().then(() => {
+              console.log("Video playing successfully");
+            }).catch(error => {
+              console.error("Video play error:", error);
+              alert("Could not play video. Click to try again.");
+            });
+          }, 300); // Small delay for fade-in effect
+        });
+
+        // Initialize video functionality
+        function initializeVideo() {
+          const video = document.getElementById("mainVideo");
+          const playOverlay = document.getElementById("videoPlayOverlay");
+          const playButton = document.getElementById("videoPlayButton");
+          const pauseButton = document.getElementById("videoPauseButton");
+          const playIcon = document.getElementById("playIcon");
+          const progressFill = document.getElementById("videoProgress");
+          const currentTimeDisplay = document.getElementById("currentTime");
+          const durationDisplay = document.getElementById("duration");
+          let hasPlayed = false;
+          let isPaused = false;
+
+          // Debug: Check if video element exists
+          if (!video) {
+            console.error("Video element not found!");
+            alert("Video player not found. Please refresh the page.");
+            return;
+          }
+
+          // Debug: Check if video element exists
+          if (!video) {
+            console.error("Video element not found!");
+            return;
+          }
+
+          // Debug: Check if video source loads
+          video.addEventListener("loadstart", function() {
+            console.log("Video started loading");
+          });
+
+          video.addEventListener("canplay", function() {
+            console.log("Video can play");
+          });
+
+          video.addEventListener("error", function(e) {
+            console.error("Video error:", e);
+            alert("Video could not be loaded. Please check if friendship_edit.mp4 exists in the correct location.");
+          });
+
+          // Play video when overlay is clicked or tapped
+          playOverlay.addEventListener("click", handlePlayPause);
+          playOverlay.addEventListener("touchstart", handlePlayPause);
+
+          // Mobile tap support - anywhere on video
+          video.addEventListener("click", handlePlayPause);
+          video.addEventListener("touchstart", handlePlayPause);
+
+          function handlePlayPause() {
+            if (!hasPlayed) {
+              console.log("Playing video...");
+              playOverlay.classList.add("hidden");
+              playButton.style.display = "none";
+              pauseButton.style.display = "flex";
+              
+              video.play().then(() => {
+                console.log("Video playing successfully");
+                hasPlayed = true;
+                isPaused = false;
+                startProgressUpdate();
+              }).catch(error => {
+                console.error("Video play error:", error);
+                alert("Could not play video. Tap to try again.");
+              });
+            } else if (!isPaused) {
+              // Pause the video
+              video.pause();
+              isPaused = true;
+              playButton.style.display = "flex";
+              pauseButton.style.display = "none";
+              playIcon.className = "fas fa-play play-icon";
+              console.log("Video paused");
+              stopProgressUpdate();
+            } else {
+              // Resume the video
+              video.play();
+              isPaused = false;
+              playButton.style.display = "none";
+              pauseButton.style.display = "flex";
+              playIcon.className = "fas fa-pause pause-icon";
+              console.log("Video resumed");
+              startProgressUpdate();
+            }
+          }
+
+          // Progress bar functionality
+          function startProgressUpdate() {
+            updateProgress();
+            progressInterval = setInterval(updateProgress, 100);
+          }
+
+          function stopProgressUpdate() {
+            if (progressInterval) {
+              clearInterval(progressInterval);
+            }
+          }
+
+          function updateProgress() {
+            if (video && !isNaN(video.duration)) {
+              const progress = (video.currentTime / video.duration) * 100;
+              progressFill.style.width = progress + '%';
+              
+              // Format time display
+              const formatTime = (seconds) => {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+              };
+              
+              currentTimeDisplay.textContent = formatTime(video.currentTime);
+              durationDisplay.textContent = formatTime(video.duration);
+            }
+          }
+
+          function formatTime(seconds) {
+            if (isNaN(seconds)) return "0:00";
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+          }
+
+          // When video ends, navigate to letter
+          video.addEventListener("ended", function() {
+            console.log("Video ended, navigating to letter...");
+            setTimeout(() => {
+              window.location.href = "letter.html";
+            }, 2000);
+          });
+
+          // Close button functionality
+          const closeBtn = document.getElementById("videoModalClose");
+          closeBtn.addEventListener("click", function() {
+            const videoModal = document.getElementById("videoModal");
+            const video = document.getElementById("mainVideo");
+            
+            // Pause video
+            video.pause();
+            video.currentTime = 0;
+            
+            // Hide video modal with fade-out effect
+            videoModal.classList.remove("active");
+          });
+
+          // Close on background click
+          const videoModal = document.getElementById("videoModal");
+          videoModal.addEventListener("click", function(e) {
+            if (e.target === videoModal) {
+              const video = document.getElementById("mainVideo");
+              video.pause();
+              video.currentTime = 0;
+              videoModal.classList.remove("active");
+            }
+          });
+
+          // Close on ESC key
+          document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+              const videoModal = document.getElementById("videoModal");
+              if (videoModal.classList.contains("active")) {
+                const video = document.getElementById("mainVideo");
+                video.pause();
+                video.currentTime = 0;
+                videoModal.classList.remove("active");
+              }
+            }
+          });
+
+          // Keyboard support
+          document.addEventListener("keydown", function(e) {
+            if (e.key === " " || e.key === "Enter") {
+              handlePlayPause();
+            }
+          });
+        }
 
         // Scroll animations with GSAP
         gsap.from(".header", {
